@@ -52,6 +52,23 @@ self.addEventListener('fetch', (e) => {
   );
 });
 
+// Tap a notification → focus existing tab or open a new one
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil(
+    clients
+      .matchAll({ type: 'window', includeUncontrolled: true })
+      .then((list) => {
+        for (const client of list) {
+          if (client.url.startsWith(self.location.origin) && 'focus' in client) {
+            return client.focus();
+          }
+        }
+        return clients.openWindow('/');
+      })
+  );
+});
+
 async function tilesCacheFirst(request) {
   const cache = await caches.open(TILE_CACHE);
   const cached = await cache.match(request);

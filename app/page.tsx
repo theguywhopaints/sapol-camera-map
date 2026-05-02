@@ -11,6 +11,7 @@ import {
 } from 'react';
 import type { CameraLocation } from '@/lib/geocoder';
 import { useGeolocation } from './hooks/useGeolocation';
+import { useProximityNotifications } from './hooks/useProximityNotifications';
 import { haversineKm, formatDistance } from '@/lib/distance';
 import { BottomSheet, type SnapState } from './components/BottomSheet';
 import type { CameraMapHandle } from './components/CameraMap';
@@ -69,6 +70,11 @@ export default function Home() {
 
   const geo = useGeolocation();
   const mapRef = useRef<CameraMapHandle>(null) as RefObject<CameraMapHandle>;
+  const notif = useProximityNotifications(
+    data?.locations ?? [],
+    geo.location?.lat ?? null,
+    geo.location?.lon ?? null
+  );
 
   // ─── Fetch camera data ──────────────────────────────────────
   const fetchLocations = useCallback(async () => {
@@ -213,6 +219,45 @@ export default function Home() {
                 <option key={d} value={d}>{fmtDate(d)}</option>
               ))}
             </select>
+
+            {/* Notifications */}
+            {notif.permission !== 'unsupported' && (
+              <button
+                onClick={notif.toggle}
+                disabled={notif.permission === 'denied'}
+                title={
+                  notif.permission === 'denied'
+                    ? 'Notifications blocked — enable in browser settings'
+                    : notif.enabled
+                    ? 'Notifications on — tap to disable'
+                    : 'Enable 2km camera alerts'
+                }
+                className={[
+                  'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-colors',
+                  notif.enabled
+                    ? 'bg-amber-500/20 border-amber-400/50 text-amber-400 hover:bg-amber-500/30'
+                    : notif.permission === 'denied'
+                    ? 'bg-slate-800/80 border-slate-600/50 text-slate-600 cursor-not-allowed'
+                    : 'bg-slate-800/80 border-slate-600/50 text-slate-300 hover:text-white hover:bg-slate-700',
+                ].join(' ')}
+                aria-label={notif.enabled ? 'Disable notifications' : 'Enable notifications'}
+              >
+                {notif.enabled ? (
+                  /* Bell with dot (active) */
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="18" cy="5" r="3" fill="#f59e0b" />
+                  </svg>
+                ) : (
+                  /* Bell off */
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </button>
+            )}
 
             {/* Refresh */}
             <button
