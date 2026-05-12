@@ -958,5 +958,674 @@
     "lat": -34.4343766,
     "lon": 137.9063718,
     "displayName": "Yorke Highway, Ardrossan, South Australia, 5571, Australia"
+  },
+  "Adams Rd, Craigmore": {
+    "lat": -34.7050751,
+    "lon": 138.7012678,
+    "displayName": "Adams Road, Craigmore, Adelaide, City of Playford, South Australia, 5114, Australia"
+  },
+  "Airport Rd, Brooklyn Park": {
+    "lat": -34.9256361,
+    "lon": 138.5437214,
+    "displayName": "Airport Road, Brooklyn Park, Adelaide, South Australia, 5032, Australia"
+  },
+  "Cavan Rd, Gepps Cross": {
+    "lat": -34.8424315,
+    "lon": 138.5902172,
+    "displayName": "Cavan Road, Gepps Cross, Adelaide, South Australia, 5094, Australia"
+  },
+  "Crittenden Rd, Smithfield Plains": {
+    "lat": -34.675372,
+    "lon": 138.6736257,
+    "displayName": "Crittenden Road, Smithfield Plains, Adelaide, City of Playford, South Australia, 5114, Australia"
+  },
+  "Days Rd, Croydon Park": {
+    "lat": -34.880688,
+    "lon": 138.5666504,
+    "displayName": "Days Road, Croydon Park, Adelaide, South Australia, 5008, Australia"
+  },
+  "Galway Ave, Collinswood": {
+    "lat": -34.8858864,
+    "lon": 138.6148799,
+    "displayName": "Galway Avenue, Collinswood, Adelaide, South Australia, 5081, Australia"
+  },
+  "Gawler Rd, Virginia": {
+    "lat": -34.6577882,
+    "lon": 138.5659147,
+    "displayName": "Gawler Road, Adelaide, City of Playford, South Australia, 5120, Australia"
+  },
+  "Grand Junction Rd, Gepps Cross": {
+    "lat": -34.8482539,
+    "lon": 138.5961173,
+    "displayName": "Grand Junction Road, Gepps Cross, Adelaide, South Australia, 5094, Australia"
+  },
+  "Grand Junction Rd, Clearview": {
+    "lat": -34.8475089,
+    "lon": 138.613348,
+    "displayName": "Grand Junction Road, Clearview, Adelaide, City of Port Adelaide Enfield, South Australia, 5085, Australia"
+  },
+  "Heaslip Rd, Angle Vale": {
+    "lat": -34.6405916,
+    "lon": 138.6466272,
+    "displayName": "Heaslip Road, Adelaide, City of Playford, South Australia, 5117, Australia"
+  },
+  "Henley Beach Rd, Brooklyn Park": {
+    "lat": -34.9273123,
+    "lon": 138.5351213,
+    "displayName": "Henley Beach Road, Brooklyn Park, Adelaide, City of West Torrens, South Australia, 5032, Australia"
+  },
+  "Main North Rd, Blair Athol": {
+    "lat": -34.8592266,
+    "lon": 138.6008943,
+    "displayName": "Main North Road, Blair Athol, Adelaide, South Australia, 5084, Australia"
+  },
+  "Marlborough St, Henley Beach": {
+    "lat": -34.9136657,
+    "lon": 138.4982068,
+    "displayName": "Marlborough Street, Henley Beach, Adelaide, City of Charles Sturt, South Australia, 5022, Australia"
+  },
+  "Marmion Ave, Blair Athol": {
+    "lat": -34.8524439,
+    "lon": 138.5978845,
+    "displayName": "Marmion Avenue, Blair Athol, Adelaide, City of Port Adelaide Enfield, South Australia, 5084, Australia"
+  },
+  "Port Rd, West Hindmarsh": {
+    "lat": -34.9014777,
+    "lon": 138.5660727,
+    "displayName": "Port Road, West Hindmarsh, Adelaide, South Australia, 5007, Australia"
+  },
+  "Port Wakefield Rd, Gepps Cross": {
+    "lat": -34.843805,
+    "lon": 138.5999511,
+    "displayName": "Port Wakefield Road, Gepps Cross, Adelaide, City of Port Adelaide Enfield, South Australia, 5094, Australia"
+  },
+  "President Ave, Andrews Farm": {
+    "lat": -34.6796356,
+    "lon": 138.6573627,
+    "displayName": "President Avenue, Andrews Farm, Adelaide, South Australia, 5114, Australia"
+  },
+  "Prospect Rd, Prospect": {
+    "lat": -34.898202,
+    "lon": 138.5947995,
+    "displayName": "Prospect Road, Thorngate, Adelaide, City of Prospect, South Australia, 5082, Australia"
+  },
+  "Purling Ave, Edinburgh": {
+    "lat": -34.7386567,
+    "lon": 138.6498593,
+    "displayName": "Purling Avenue, Edinburgh, Adelaide, City of Salisbury, South Australia, 5111, Australia"
+  },
+  "Torrens Rd, Renown Park": {
+    "lat": -34.8882737,
+    "lon": 138.5700258,
+    "displayName": "Torrens Road, Renown Park, Adelaide, City of Charles Sturt, South Australia, 5008, Australia"
+  },
+  "Bains Rd, Woodcroft": {
+    "lat": -35.1143065,
+    "lon": 138.5522684,
+    "displayName": "Bains Road, Woodcroft, Adelaide, South Australia, 5162, Australia"
+  },
+  "Balmoral Rd, Dernancourt": {
+    "lat": -34.8603777,
+    "lon": 138.6797735,
+    "displayName": "Balmoral Road, Dernancourt, Adelaide, South Australia, 5075, Australia"
+  },
+  "Beovich Rd, Ingle Farm": {
+    "lat": -34.8297252,
+    "lon": 138.6411637,
+    "displayName": "Beovich Road, Ingle Farm, Adelaide, City of Salisbury, South Australia, 5098, Australia"
+  },
+  "Blacks Rd, Gilles Plains": {
+    "lat": -34.8510266,
+    "lon": 138.6536475,
+    "displayName": "Blacks Road, Gilles Plains, Adelaide, City of Port Adelaide Enfield, South Australia, 5086, Australia"
+  },
+  "Carrington St, Adelaide": {
+    "lat": -34.9308636,
+    "lon": 138.6123929,
+    "displayName": "Carrington Street, Adelaide, Adelaide City Council, South Australia, 5000, Australia"
+  },
+  "Charmaine Ave, Para Vista": {
+    "lat": -34.8319801,
+    "lon": 138.6678734,
+    "displayName": "Charmaine Avenue, Para Vista, Adelaide, South Australia, 5093, Australia"
+  },
+  "Dequetteville Tce, Adelaide": {
+    "lat": -34.9231183,
+    "lon": 138.616314,
+    "displayName": "Dequetteville Terrace, Adelaide, The City of Norwood Payneham and St Peters, South Australia, 5005, Australia"
+  },
+  "Elizabeth Rd, Morphett Vale": {
+    "lat": -35.134277,
+    "lon": 138.5128724,
+    "displayName": "Elizabeth Road, Morphett Vale, Adelaide, South Australia, 5162, Australia"
+  },
+  "Galloway Rd, O'Sullivan Beach": {
+    "lat": -35.1184934,
+    "lon": 138.4752429,
+    "displayName": "Galloway Road, O'Sullivan Beach, Adelaide, South Australia, 5166, Australia"
+  },
+  "Grand Junction Rd, Gilles Plains": {
+    "lat": -34.8459961,
+    "lon": 138.6523832,
+    "displayName": "Grand Junction Road, Gilles Plains, Adelaide, South Australia, 5086, Australia"
+  },
+  "Grants Gully Rd, Chandlers Hill": {
+    "lat": -35.1032443,
+    "lon": 138.6128293,
+    "displayName": "Grants Gully Road, Chandlers Hill, Adelaide, City of Onkaparinga, South Australia, 5157, Australia"
+  },
+  "Grants Gully Rd, Clarendon": {
+    "lat": -35.1102275,
+    "lon": 138.6306383,
+    "displayName": "Grants Gully Road, Adelaide, City of Onkaparinga, South Australia, 5157, Australia"
+  },
+  "Hub Dr, Aberfoyle Park": {
+    "lat": -35.0761335,
+    "lon": 138.594307,
+    "displayName": "Hub Drive, Aberfoyle Park, Adelaide, South Australia, 5159, Australia"
+  },
+  "Main South Rd, Hackham": {
+    "lat": -35.1394653,
+    "lon": 138.5247046,
+    "displayName": "Main South Road, Hackham, Adelaide, City of Onkaparinga, South Australia, 5163, Australia"
+  },
+  "Main South Rd, Old Reynella": {
+    "lat": -35.10073,
+    "lon": 138.5315403,
+    "displayName": "Main South Road, Old Reynella, Adelaide, City of Onkaparinga, South Australia, 5161, Australia"
+  },
+  "Sherebrooke Bvd, Woodcroft": {
+    "lat": -35.0981286,
+    "lon": 138.5562564,
+    "displayName": "Sherebrooke Boulevard, Woodcroft, Adelaide, City of Onkaparinga, South Australia, 5162, Australia"
+  },
+  "Sherriffs Rd, Morphett Vale": {
+    "lat": -35.1055727,
+    "lon": 138.5180019,
+    "displayName": "Sherriffs Road, Morphett Vale, Adelaide, South Australia, 5162, Australia"
+  },
+  "Sir Lewis Cohen Ave, Adelaide": {
+    "lat": -34.9381709,
+    "lon": 138.594587,
+    "displayName": "Sir Lewis Cohen Avenue, Adelaide, Adelaide City Council, South Australia, 5000, Australia"
+  },
+  "Wakefield Rd, Adelaide": {
+    "lat": -34.9276304,
+    "lon": 138.621466,
+    "displayName": "Wakefield Road, Adelaide, South Australia, 5000, Australia"
+  },
+  "Bicentennial Dr, Golden Grove": {
+    "lat": -34.7910085,
+    "lon": 138.7033254,
+    "displayName": "Bicentennial Drive, Golden Grove, Adelaide, City of Tea Tree Gully, South Australia, 5125, Australia"
+  },
+  "Bridge Rd, Salisbury East": {
+    "lat": -34.7941938,
+    "lon": 138.6603339,
+    "displayName": "Bridge Road, Salisbury East, Adelaide, South Australia, 5109, Australia"
+  },
+  "Chief St, Brompton": {
+    "lat": -34.9004872,
+    "lon": 138.5771035,
+    "displayName": "Chief Street, Brompton, Adelaide, City of Charles Sturt, South Australia, 5007, Australia"
+  },
+  "Clayson Rd, Salisbury East": {
+    "lat": -34.7871236,
+    "lon": 138.6607285,
+    "displayName": "Clayson Road, Salisbury East, Adelaide, City of Salisbury, South Australia, 5109, Australia"
+  },
+  "Fenden Rd, Salisbury": {
+    "lat": -34.7682829,
+    "lon": 138.6520156,
+    "displayName": "Fenden Road, Salisbury Plain, Adelaide, City of Salisbury, South Australia, 5108, Australia"
+  },
+  "Hart St, Glanville": {
+    "lat": -34.8461267,
+    "lon": 138.4917915,
+    "displayName": "Hart Street, Glanville, Adelaide, South Australia, 5015, Australia"
+  },
+  "John Rice Ave, Elizabeth South": {
+    "lat": -34.7507792,
+    "lon": 138.6600041,
+    "displayName": "John Rice Avenue, Elizabeth South, Adelaide, South Australia, 5112, Australia"
+  },
+  "Lady Gowrie Dr, Largs North": null,
+  "Lady Gowrie Dr, North Haven": {
+    "lat": -34.7907123,
+    "lon": 138.4907046,
+    "displayName": "Lady Gowrie Drive, North Haven, Adelaide, South Australia, 5018, Australia"
+  },
+  "Military Rd, Semaphore Park": {
+    "lat": -34.8509657,
+    "lon": 138.4792391,
+    "displayName": "Military Road, Semaphore Park, Adelaide, South Australia, 5019, Australia"
+  },
+  "One Tree Hill Rd, Golden Grove": {
+    "lat": -34.7555008,
+    "lon": 138.768764,
+    "displayName": "One Tree Hill Road, Golden Grove, Adelaide, City of Tea Tree Gully, South Australia, 5125, Australia"
+  },
+  "Perseverance Rd, Tea Tree Gully": {
+    "lat": -34.8219237,
+    "lon": 138.730866,
+    "displayName": "Perseverance Road, Tea Tree Gully, Adelaide, City of Tea Tree Gully, South Australia, 5091, Australia"
+  },
+  "Port Rd, Queenstown": {
+    "lat": -34.8682166,
+    "lon": 138.517574,
+    "displayName": "Port Road, Queenstown, Adelaide, South Australia, 5014, Australia"
+  },
+  "Saints Rd, Salisbury Plain": {
+    "lat": -34.7646158,
+    "lon": 138.6667239,
+    "displayName": "Saints Road, Salisbury Plain, Adelaide, South Australia, 5109, Australia"
+  },
+  "Salisbury Hwy, Wingfield": {
+    "lat": -34.8328842,
+    "lon": 138.575355,
+    "displayName": "Salisbury Highway, Wingfield, Adelaide, South Australia, 5013, Australia"
+  },
+  "The Grove Way, Golden Grove": {
+    "lat": -34.7890885,
+    "lon": 138.6969997,
+    "displayName": "The Grove Way, Golden Grove, Adelaide, City of Tea Tree Gully, South Australia, 5125, Australia"
+  },
+  "The Grove Way, Salisbury Heights": {
+    "lat": -34.7665039,
+    "lon": 138.6700928,
+    "displayName": "The Grove Way, Salisbury Heights, Adelaide, South Australia, 5109, Australia"
+  },
+  "Tolmer Rd, Elizabeth Park": {
+    "lat": -34.7074942,
+    "lon": 138.6792681,
+    "displayName": "Tolmer Road, Elizabeth Park, Adelaide, South Australia, 5113, Australia"
+  },
+  "Victoria Rd, Largs Bay": {
+    "lat": -34.8220121,
+    "lon": 138.5000734,
+    "displayName": "Victoria Road, Largs Bay, Adelaide, City of Port Adelaide Enfield, South Australia, 5016, Australia"
+  },
+  "Victoria Rd, Birkenhead": {
+    "lat": -34.8356925,
+    "lon": 138.5017179,
+    "displayName": "Victoria Road, Birkenhead, Adelaide, South Australia, 5015, Australia"
+  },
+  "Woodford Rd, Elizabeth North": {
+    "lat": -34.6988654,
+    "lon": 138.6817778,
+    "displayName": "Woodford Road, Elizabeth North, Adelaide, South Australia, 5113, Australia"
+  },
+  "Woolnough Rd, Largs Bay": {
+    "lat": -34.8331754,
+    "lon": 138.4877631,
+    "displayName": "Woolnough Road, Largs Bay, Adelaide, South Australia, 5016, Australia"
+  },
+  "Ayliffes Rd, St Marys": {
+    "lat": -35.0111545,
+    "lon": 138.5779154,
+    "displayName": "Ayliffes Road, St Marys, Adelaide, South Australia, 5042, Australia"
+  },
+  "Barracks Rd, Hope Valley": {
+    "lat": -34.8423549,
+    "lon": 138.7171693,
+    "displayName": "Barracks Road, Hope Valley, Adelaide, South Australia, 5090, Australia"
+  },
+  "Cliff St, Glengowrie": {
+    "lat": -34.9861061,
+    "lon": 138.5340538,
+    "displayName": "Cliff Street, Glengowrie, Adelaide, City of Marion, South Australia, 5044, Australia"
+  },
+  "Daws Rd, Daw Park": {
+    "lat": -34.9923205,
+    "lon": 138.5842238,
+    "displayName": "Daws Road, Daw Park, Adelaide, South Australia, 5041, Australia"
+  },
+  "Gorge Rd, Athelstone": {
+    "lat": -34.8704801,
+    "lon": 138.7014626,
+    "displayName": "Gorge Road, Athelstone, Adelaide, Campbelltown City Council, South Australia, 5076, Australia"
+  },
+  "Grand Junction Rd, Hope Valley": {
+    "lat": -34.8431708,
+    "lon": 138.7026827,
+    "displayName": "Grand Junction Road, Hope Valley, Adelaide, South Australia, 5090, Australia"
+  },
+  "James St, Campbelltown": {
+    "lat": -34.8858073,
+    "lon": 138.6556244,
+    "displayName": "James Street, Campbelltown, Adelaide, Campbelltown City Council, South Australia, 5074, Australia"
+  },
+  "Lyons Rd, Dernancourt": {
+    "lat": -34.8575654,
+    "lon": 138.6905695,
+    "displayName": "Lyons Road, Dernancourt, Adelaide, City of Tea Tree Gully, South Australia, 5075, Australia"
+  },
+  "Maryvale Rd, Athelstone": {
+    "lat": -34.876867,
+    "lon": 138.7002725,
+    "displayName": "Maryvale Road, Athelstone, Adelaide, South Australia, 5076, Australia"
+  },
+  "Morialta Rd, Woodforde": {
+    "lat": -34.9002648,
+    "lon": 138.6878203,
+    "displayName": "Morialta Road, Rostrevor, Woodforde, Adelaide, South Australia, 5073, Australia"
+  },
+  "North East Rd, St Agnes": {
+    "lat": -34.8221167,
+    "lon": 138.7120333,
+    "displayName": "North East Road, St Agnes, Adelaide, City of Tea Tree Gully, South Australia, 5097, Australia"
+  },
+  "Reservoir Rd, Hope Valley": {
+    "lat": -34.839737,
+    "lon": 138.688602,
+    "displayName": "Reservoir Road, Hope Valley, Adelaide, South Australia, 5090, Australia"
+  },
+  "South Rd, Edwardstown": {
+    "lat": -34.9723209,
+    "lon": 138.5732594,
+    "displayName": "South Road, Edwardstown, Adelaide, South Australia, 5039, Australia"
+  },
+  "Springbank Rd, Clapham": {
+    "lat": -34.9900846,
+    "lon": 138.6069523,
+    "displayName": "Springbank Road, Clapham, Adelaide, City of Mitcham, South Australia, 5062, Australia"
+  },
+  "Stradbroke Rd, Athelstone": {
+    "lat": -34.8778394,
+    "lon": 138.691329,
+    "displayName": "Stradbroke Road, Athelstone, Adelaide, South Australia, 5076, Australia"
+  },
+  "Wattle St, Malvern": {
+    "lat": -34.9545468,
+    "lon": 138.6118239,
+    "displayName": "Wattle Street, Malvern, Adelaide, South Australia, 5061, Australia"
+  },
+  "West St, Ascot Park": {
+    "lat": -34.9904602,
+    "lon": 138.5650359,
+    "displayName": "West Street, Ascot Park, Adelaide, South Australia, 5043, Australia"
+  },
+  "Winston Ave, Cumberland Park": {
+    "lat": -34.9689849,
+    "lon": 138.5819319,
+    "displayName": "Winston Avenue, Cumberland Park, Adelaide, City of Mitcham, South Australia, 5041, Australia"
+  },
+  "Bartley Tce, West Lakes Shore": {
+    "lat": -34.8640837,
+    "lon": 138.4859285,
+    "displayName": "Bartley Terrace, West Lakes Shore, Adelaide, City of Charles Sturt, South Australia, 5020, Australia"
+  },
+  "Black Top Rd, Hillbank": {
+    "lat": -34.7500122,
+    "lon": 138.6812931,
+    "displayName": "Black Top Road, Hillbank, Adelaide, South Australia, 5112, Australia"
+  },
+  "Cheltenham Pde, Cheltenham": {
+    "lat": -34.8667048,
+    "lon": 138.5290281,
+    "displayName": "Cheltenham Parade, Cheltenham, Adelaide, South Australia, 5014, Australia"
+  },
+  "Clark Tce, Seaton": {
+    "lat": -34.8900668,
+    "lon": 138.5150502,
+    "displayName": "Clark Terrace, Seaton, Adelaide, South Australia, 5023, Australia"
+  },
+  "Elizabeth Way, Elizabeth": {
+    "lat": -34.7209851,
+    "lon": 138.6677869,
+    "displayName": "Elizabeth Way, Elizabeth, Adelaide, South Australia, 5112, Australia"
+  },
+  "Frederick Rd, Seaton": {
+    "lat": -34.89925,
+    "lon": 138.5050929,
+    "displayName": "Frederick Road, Seaton, Adelaide, South Australia, 5023, Australia"
+  },
+  "Lochside Dr, West Lakes": {
+    "lat": -34.8716247,
+    "lon": 138.4940517,
+    "displayName": "Lochside Drive, West Lakes, Adelaide, South Australia, 5021, Australia"
+  },
+  "Mcintyre Rd, Salisbury East": {
+    "lat": -34.7955459,
+    "lon": 138.6533326,
+    "displayName": "McIntyre Road, Salisbury East, Adelaide, City of Salisbury, South Australia, 5109, Australia"
+  },
+  "Medlow Rd, Uleybury": null,
+  "Military Rd, West Lakes Shore": {
+    "lat": -34.8642303,
+    "lon": 138.4796925,
+    "displayName": "Military Road, West Lakes Shore, Adelaide, South Australia, 5020, Australia"
+  },
+  "Ninth Ave, Woodville North": {
+    "lat": -34.8629576,
+    "lon": 138.5362196,
+    "displayName": "Ninth Avenue, Woodville North, Adelaide, South Australia, 5012, Australia"
+  },
+  "North South Motorway, Dry Creek": null,
+  "Philip Hwy, Elizabeth": {
+    "lat": -34.720773,
+    "lon": 138.6699785,
+    "displayName": "Philip Highway, Elizabeth, Adelaide, South Australia, 5112, Australia"
+  },
+  "Port Rd, Cheltenham": {
+    "lat": -34.8727534,
+    "lon": 138.5236109,
+    "displayName": "Port Road, Cheltenham, Adelaide, South Australia, 5014, Australia"
+  },
+  "Torrens Rd, Cheltenham": {
+    "lat": -34.8635033,
+    "lon": 138.5290832,
+    "displayName": "Torrens Road, Cheltenham, Adelaide, City of Charles Sturt, South Australia, 5014, Australia"
+  },
+  "Trimmer Pde, West Lakes": {
+    "lat": -34.8941332,
+    "lon": 138.494109,
+    "displayName": "Trimmer Parade, West Lakes, Adelaide, South Australia, 5021, Australia"
+  },
+  "Barton East Tce, North Adelaide": {
+    "lat": -34.9028696,
+    "lon": 138.5969352,
+    "displayName": "Barton Terrace East, North Adelaide, Adelaide, South Australia, 5006, Australia"
+  },
+  "Eighth Ave, St Peters": {
+    "lat": -34.9012201,
+    "lon": 138.6221968,
+    "displayName": "Eighth Avenue, St Peters, Adelaide, South Australia, 5069, Australia"
+  },
+  "Glynburn Rd, Hectorville": {
+    "lat": -34.8970335,
+    "lon": 138.6571025,
+    "displayName": "Glynburn Road, Hectorville, Adelaide, South Australia, 5073, Australia"
+  },
+  "Goodwood Rd, Colonel Light Gardens": {
+    "lat": -34.9864999,
+    "lon": 138.5923968,
+    "displayName": "Goodwood Road, Colonel Light Gardens, Adelaide, South Australia, 5041, Australia"
+  },
+  "Mount Barker Rd, Leawood Gardens": {
+    "lat": -34.9701395,
+    "lon": 138.6746312,
+    "displayName": "South Eastern Freeway, Leawood Gardens, Adelaide, South Australia, 5150, Australia"
+  },
+  "Quick Rd, Mitchell Park": {
+    "lat": -35.0028041,
+    "lon": 138.5610038,
+    "displayName": "Quick Road, Mitchell Park, Adelaide, City of Marion, South Australia, 5043, Australia"
+  },
+  "Sir Edwin Smith Ave, North Adelaide": {
+    "lat": -34.9110125,
+    "lon": 138.6011625,
+    "displayName": "Sir Edwin Smith Avenue, North Adelaide, Adelaide, South Australia, 5006, Australia"
+  },
+  "South Rd, Melrose Park": {
+    "lat": -34.9890836,
+    "lon": 138.5745157,
+    "displayName": "South Road, Melrose Park, Adelaide, City of Mitcham, South Australia, 5039, Australia"
+  },
+  "Watson Ave, Netley": {
+    "lat": -34.9483746,
+    "lon": 138.5490124,
+    "displayName": "Watson Avenue, Netley, Adelaide, South Australia, 5037, Australia"
+  },
+  "Anzac Hwy, Glenelg North": {
+    "lat": -34.9756396,
+    "lon": 138.5318471,
+    "displayName": "Anzac Highway, Glenelg North, Adelaide, City of Holdfast Bay, South Australia, 5045, Australia"
+  },
+  "Bonython Ave, Glenelg North": {
+    "lat": -34.9649446,
+    "lon": 138.5234919,
+    "displayName": "Bonython Avenue, Novar Gardens, Adelaide, South Australia, 5040, Australia"
+  },
+  "Elder Smith Rd, Mawson Lakes": {
+    "lat": -34.8011424,
+    "lon": 138.6061829,
+    "displayName": "Elder Smith Road, Mawson Lakes, Adelaide, City of Salisbury, South Australia, 5095, Australia"
+  },
+  "Hardys Rd, Torrensville": {
+    "lat": -34.9186978,
+    "lon": 138.5538521,
+    "displayName": "Hardys Road, Torrensville, Adelaide, South Australia, 5031, Australia"
+  },
+  "Main North Rd, Mawson Lakes": {
+    "lat": -34.8217589,
+    "lon": 138.6199819,
+    "displayName": "Main North Road, Mawson Lakes, Adelaide, South Australia, 5095, Australia"
+  },
+  "Military Rd, Henley Beach": {
+    "lat": -34.9236943,
+    "lon": 138.4967233,
+    "displayName": "Military Road, Henley Beach, Adelaide, South Australia, 5022, Australia"
+  },
+  "Port Wakefield Rd, Bolivar": {
+    "lat": -34.7457246,
+    "lon": 138.5868772,
+    "displayName": "Port Wakefield Road, Bolivar, Adelaide, South Australia, 5110, Australia"
+  },
+  "Salisbury Hwy, Dry Creek": {
+    "lat": -34.8116586,
+    "lon": 138.5974645,
+    "displayName": "Salisbury Highway, Dry Creek, Adelaide, South Australia, 5094, Australia"
+  },
+  "Sir Donald Bradman Dr, Brooklyn Park": {
+    "lat": -34.9323471,
+    "lon": 138.5475999,
+    "displayName": "Sir Donald Bradman Drive, Brooklyn Park, Adelaide, City of West Torrens, South Australia, 5032, Australia"
+  },
+  "Tapleys Hill Rd, Glenelg North": {
+    "lat": -34.9670314,
+    "lon": 138.5169236,
+    "displayName": "Tapleys Hill Road, Glenelg North, Adelaide, City of Holdfast Bay, South Australia, 5045, Australia"
+  },
+  "Valetta Rd, Kidman Park": {
+    "lat": -34.9136409,
+    "lon": 138.531073,
+    "displayName": "Valetta Road, Kidman Park, Adelaide, South Australia, 5025, Australia"
+  },
+  "Yorktown Rd, Craigmore": {
+    "lat": -34.7078742,
+    "lon": 138.7007957,
+    "displayName": "Yorktown Road, Craigmore, Adelaide, South Australia, 5114, Australia"
+  },
+  "Adelaide Rd, Kapunda": {
+    "lat": -34.3602547,
+    "lon": 138.9086573,
+    "displayName": "Thiele Highway, Kapunda, Light Regional Council, South Australia, 5373, Australia"
+  },
+  "Adelaide Rd, Greenock": {
+    "lat": -34.4599923,
+    "lon": 138.9236619,
+    "displayName": "Adelaide Road, Greenock, South Australia, 5360, Australia"
+  },
+  "Barossa Valley Way, Altona": {
+    "lat": -34.5986308,
+    "lon": 138.907392,
+    "displayName": "Barossa Valley Way, Altona, Lyndoch, South Australia, 5351, Australia"
+  },
+  "Borrow St, Freeling": {
+    "lat": -34.4487611,
+    "lon": 138.8255031,
+    "displayName": "Borrow Street, Freeling, South Australia, 5372, Australia"
+  },
+  "Clare Rd, Kapunda": {
+    "lat": -34.3384145,
+    "lon": 138.915303,
+    "displayName": "Clare Road, Kapunda, South Australia, 5373, Australia"
+  },
+  "Daveyston Rd, Freeling": {
+    "lat": -34.4626035,
+    "lon": 138.8463365,
+    "displayName": "Daveyston Road, Freeling, Light Regional Council, South Australia, 5372, Australia"
+  },
+  "Dawkins Ave, Willaston": {
+    "lat": -34.5829151,
+    "lon": 138.7382825,
+    "displayName": "Dawkins Avenue, Willaston, Adelaide, Town of Gawler, South Australia, 5118, Australia"
+  },
+  "East Tce, Kapunda": {
+    "lat": -34.3440261,
+    "lon": 138.9289149,
+    "displayName": "East Terrace, Kapunda, Light Regional Council, South Australia, 5373, Australia"
+  },
+  "Gilbert St, Lyndoch": {
+    "lat": -34.6040247,
+    "lon": 138.8822626,
+    "displayName": "Gilbert Street, Lyndoch, South Australia, 5351, Australia"
+  },
+  "Gomersal Rd, Gomersal": {
+    "lat": -34.5269192,
+    "lon": 138.8835016,
+    "displayName": "Gomersal Road, Shea-Oak Log, Gomersal, Tanunda, Light Regional Council, South Australia, 5352, Australia"
+  },
+  "Greenock Rd, Greenock": {
+    "lat": -34.4568147,
+    "lon": 138.9278427,
+    "displayName": "Greenock Road, Greenock, South Australia, 5360, Australia"
+  },
+  "Hanson St, Freeling": {
+    "lat": -34.4539884,
+    "lon": 138.8194026,
+    "displayName": "Hanson Street, Freeling, South Australia, 5372, Australia"
+  },
+  "Hermann Thumm Dr, Lyndoch": {
+    "lat": -34.5805647,
+    "lon": 138.8758683,
+    "displayName": "Hermann Thumm Drive, Lyndoch, South Australia, 5351, Australia"
+  },
+  "Main North Rd, Willaston": {
+    "lat": -34.5851794,
+    "lon": 138.7449461,
+    "displayName": "Main North Road, Willaston, Adelaide, Town of Gawler, South Australia, 5118, Australia"
+  },
+  "Princess St, Willaston": {
+    "lat": -34.5866034,
+    "lon": 138.7464632,
+    "displayName": "Princess Street, Willaston, Adelaide, Town of Gawler, South Australia, 5118, Australia"
+  },
+  "Seppeltsfield Rd, Seppeltsfield": null,
+  "Sturt Hwy, Daveyston": {
+    "lat": -34.4732419,
+    "lon": 138.8737891,
+    "displayName": "Sturt Highway, Daveyston, South Australia, 5355, Australia"
+  },
+  "Tarlee Rd, Kapunda": {
+    "lat": -34.3192652,
+    "lon": 138.8813794,
+    "displayName": "Tarlee Road, Kapunda, South Australia, 5373, Australia"
+  },
+  "Thiele Hwy, Freeling": {
+    "lat": -34.5118913,
+    "lon": 138.7847569,
+    "displayName": "Thiele Highway, Shea-Oak Log, Freeling, Light Regional Council, South Australia, 5372, Australia"
+  },
+  "Thiele Hwy, Kapunda": {
+    "lat": -34.3321483,
+    "lon": 138.9358878,
+    "displayName": "Thiele Highway, Alma Vale, Kapunda, South Australia, 5373, Australia"
+  },
+  "Thiele Hwy, Fords": {
+    "lat": -34.4164693,
+    "lon": 138.8651284,
+    "displayName": "Thiele Highway, Fords, Freeling, South Australia, 5372, Australia"
   }
 }

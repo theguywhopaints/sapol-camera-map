@@ -2,15 +2,13 @@ name: Scrape Camera Locations
 
 on:
   schedule:
-    # Run every 4 hours (SAPOL updates locations daily, this keeps data fresh)
-    - cron: '0 */4 * * *'
+    # Every Monday at 7am ACST (Sunday 9:30pm UTC)
+    - cron: '30 21 * * 0'
   workflow_dispatch: # Allow manual trigger from GitHub Actions UI
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -26,12 +24,8 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install chromium --with-deps
 
-      - name: Run scraper
-        run: npx tsx scripts/scrape-and-save.ts
-
-      - name: Commit updated data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/cameras.json .geocache.json
-          git diff --staged --quiet || (git commit -m "chore: update camera locations [skip ci]" && git push)
+      - name: Scrape and save to Supabase
+        run: npx tsx scripts/scrape-to-supabase.ts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

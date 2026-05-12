@@ -1,5 +1,5 @@
-const CACHE = 'sapol-v2';
-const TILE_CACHE = 'sapol-tiles-v2';
+const CACHE = 'sapol-v3';
+const TILE_CACHE = 'sapol-tiles-v3';
 const MAX_TILES = 250;
 
 self.addEventListener('install', (e) => {

@@ -44,6 +44,30 @@ export function circleGeoJSON(
   };
 }
 
+// Compass bearing in degrees (0 = north, clockwise)
+export function bearingDeg(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const y = Math.sin(dLon) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(dLon);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+// True when camera is within 110° forward cone of the user's heading
+export function isCameraAhead(
+  userHeading: number | null,
+  cameraLat: number,
+  cameraLon: number,
+  userLat: number,
+  userLon: number
+): boolean {
+  if (userHeading === null) return true; // no heading → don't filter
+  const camBearing = bearingDeg(userLat, userLon, cameraLat, cameraLon);
+  const diff = Math.abs(((camBearing - userHeading + 540) % 360) - 180);
+  return diff < 110;
+}
+
 export function markerColor(distKm: number): string {
   if (distKm < 2) return '#ef4444';   // red
   if (distKm < 5) return '#f97316';   // orange

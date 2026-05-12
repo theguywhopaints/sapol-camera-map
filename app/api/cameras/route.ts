@@ -10,68 +10,70 @@ interface CameraData {
   lastUpdated: string;
 }
 
-const DATA_FILE = join(process.cwd(), 'data', 'cameras.json');
+// In-process cache (5 min TTL)
+let memCache: (CameraData & { cachedAt: number }) | null = null;
+const MEM_TTL_MS = 5 * 60 * 1000;
 
-function readDataFile(): CameraData | null {
+async function fromSupabase(): Promise<CameraData | null> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+
   try {
-    return JSON.parse(readFileSync(DATA_FILE, 'utf-8')) as CameraData;
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(url, key);
+
+    const { data, error } = await supabase
+      .from('cameras')
+      .select('*')
+      .order('scraped_at', { ascending: false });
+
+    if (error || !data?.length) return null;
+
+    const lastUpdated = data[0].scraped_at as string;
+
+    const locations: CameraLocation[] = data.map((row) => ({
+      id: row.id as string,
+      location: row.location as string,
+      suburb: row.suburb as string,
+      type: row.type as 'metro' | 'country',
+      lat: row.lat as number | null,
+      lon: row.lon as number | null,
+      date: row.date as string | undefined,
+      dateEnd: row.date_end as string | undefined,
+    }));
+
+    return { locations, lastUpdated };
   } catch {
     return null;
   }
 }
 
-// In-process cache so repeated calls within the same serverless instance are fast
-let memCache: (CameraData & { cachedAt: number }) | null = null;
-const MEM_TTL_MS = 5 * 60 * 1000;
+function fromFile(): CameraData | null {
+  try {
+    const raw = readFileSync(join(process.cwd(), 'data', 'cameras.json'), 'utf-8');
+    return JSON.parse(raw) as CameraData;
+  } catch {
+    return null;
+  }
+}
 
 export async function GET() {
-  // Serve from in-memory cache if fresh
   if (memCache && Date.now() - memCache.cachedAt < MEM_TTL_MS) {
     const { cachedAt, ...data } = memCache;
     return Response.json({ ...data, cached: true });
   }
 
-  // Try the pre-built file (written by GitHub Actions, bundled by outputFileTracingIncludes)
-  const fileData = readDataFile();
+  // Try Supabase first, fall back to bundled JSON file
+  const result = (await fromSupabase()) ?? fromFile();
 
-  if (fileData && fileData.locations.length > 0) {
-    memCache = { ...fileData, cachedAt: Date.now() };
-    return Response.json({ ...fileData, cached: false });
-  }
-
-  // On Vercel, no live scraping — data must come from the file
-  if (process.env.VERCEL) {
+  if (!result || result.locations.length === 0) {
     return Response.json(
-      {
-        error: 'Camera data is not yet available. The scheduled scrape may still be pending.',
-        hint: 'Try again in a few minutes — data is refreshed automatically every 4 hours.',
-      },
+      { error: 'Camera data unavailable. The scheduled scrape may still be pending.' },
       { status: 503 }
     );
   }
 
-  // Local dev fallback: run the live scraper
-  try {
-    const { scrapeCameraLocations } = await import('@/lib/scraper');
-    const { geocodeLocations } = await import('@/lib/geocoder');
-
-    const raw = await scrapeCameraLocations();
-    if (raw.length === 0) {
-      return Response.json(
-        { error: 'No camera locations found on the SAPOL page.' },
-        { status: 502 }
-      );
-    }
-
-    const locations = await geocodeLocations(raw);
-    const result: CameraData = { locations, lastUpdated: new Date().toISOString() };
-    memCache = { ...result, cachedAt: Date.now() };
-    return Response.json({ ...result, cached: false });
-  } catch (err) {
-    console.error('[cameras API]', err);
-    return Response.json(
-      { error: 'Failed to fetch camera locations', details: String(err) },
-      { status: 500 }
-    );
-  }
+  memCache = { ...result, cachedAt: Date.now() };
+  return Response.json({ ...result, cached: false });
 }

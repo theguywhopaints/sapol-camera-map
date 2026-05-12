@@ -15,7 +15,7 @@ async function showNotification(loc: CameraLocation, distKm: number) {
 
   const title = 'Speed Camera Ahead';
   const body = `${loc.location}, ${loc.suburb} · ${distLabel} away`;
-  const options: NotificationOptions = {
+  const options: any = {
     body,
     tag: `camera-${loc.id}`,   // collapses duplicates
     renotify: false,

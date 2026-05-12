@@ -6,6 +6,8 @@ export interface UserLocation {
   lat: number;
   lon: number;
   accuracy: number;
+  heading: number | null; // degrees clockwise from north; null when stationary
+  speed: number | null;   // m/s; null when unavailable
 }
 
 interface GeoState {
@@ -42,6 +44,8 @@ export function useGeolocation() {
             lat: pos.coords.latitude,
             lon: pos.coords.longitude,
             accuracy: pos.coords.accuracy,
+            heading: pos.coords.heading,
+            speed: pos.coords.speed,
           },
           error: null,
           loading: false,
