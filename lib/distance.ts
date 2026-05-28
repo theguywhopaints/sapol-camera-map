@@ -68,6 +68,25 @@ export function isCameraAhead(
   return diff < 110;
 }
 
+// Returns a human label + unicode arrow for the camera direction relative to user heading
+export function relativeDirection(
+  userHeading: number | null,
+  userLat: number,
+  userLon: number,
+  camLat: number,
+  camLon: number,
+): { label: string; arrow: string } {
+  if (userHeading === null) return { label: 'NEARBY', arrow: '●' };
+  const bearing = bearingDeg(userLat, userLon, camLat, camLon);
+  const diff = ((bearing - userHeading + 540) % 360) - 180; // −180..+180
+  const abs = Math.abs(diff);
+  if (abs < 25)  return { label: 'AHEAD',        arrow: '↑' };
+  if (abs < 70)  return diff < 0 ? { label: 'AHEAD LEFT',  arrow: '↖' } : { label: 'AHEAD RIGHT',  arrow: '↗' };
+  if (abs < 115) return diff < 0 ? { label: 'LEFT',        arrow: '←' } : { label: 'RIGHT',         arrow: '→' };
+  if (abs < 155) return diff < 0 ? { label: 'BEHIND LEFT', arrow: '↙' } : { label: 'BEHIND RIGHT',  arrow: '↘' };
+  return { label: 'BEHIND', arrow: '↓' };
+}
+
 export function markerColor(distKm: number): string {
   if (distKm < 2) return '#ef4444';   // red
   if (distKm < 5) return '#f97316';   // orange

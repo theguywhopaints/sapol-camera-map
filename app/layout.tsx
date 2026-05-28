@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import './globals.css';
 import { ServiceWorkerRegistrar } from './components/ServiceWorkerRegistrar';
+import { Analytics } from '@vercel/analytics/next';
 
 const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="h-full bg-slate-950 text-white antialiased">
         <ServiceWorkerRegistrar />
         {children}
+        <Analytics />
       </body>
     </html>
   );

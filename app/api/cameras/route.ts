@@ -58,14 +58,21 @@ function fromFile(): CameraData | null {
   }
 }
 
+function pickNewer(a: CameraData | null, b: CameraData | null): CameraData | null {
+  if (!a) return b;
+  if (!b) return a;
+  return new Date(a.lastUpdated) >= new Date(b.lastUpdated) ? a : b;
+}
+
 export async function GET() {
   if (memCache && Date.now() - memCache.cachedAt < MEM_TTL_MS) {
     const { cachedAt, ...data } = memCache;
     return Response.json({ ...data, cached: true });
   }
 
-  // Try Supabase first, fall back to bundled JSON file
-  const result = (await fromSupabase()) ?? fromFile();
+  // Use whichever source has newer data (Supabase may be stale if scraper was blocked)
+  const [supabaseResult, fileResult] = await Promise.all([fromSupabase(), Promise.resolve(fromFile())]);
+  const result = pickNewer(supabaseResult, fileResult);
 
   if (!result || result.locations.length === 0) {
     return Response.json(

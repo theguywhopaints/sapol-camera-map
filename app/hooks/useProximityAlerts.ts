@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { CameraLocation } from '@/lib/geocoder';
 import { haversineKm } from '@/lib/distance';
 import { isCameraAhead } from '@/lib/distance';
-import { playAlert, unlockAudio } from '@/lib/audio';
+import { playAlert, playUrgentAlert, unlockAudio } from '@/lib/audio';
 import { speak, unlockSpeech, spokenDistance, cancelSpeech } from '@/lib/speech';
 import { getRoadName, isSameRoad } from '@/lib/reverseGeocode';
 
@@ -41,18 +41,22 @@ function voiceText(loc: CameraLocation, distKm: number, isFirst: boolean): strin
   return `Speed camera in ${dist}`;
 }
 
-async function pushNotification(loc: CameraLocation, distKm: number, onSameRoad: boolean) {
+async function pushNotification(loc: CameraLocation, distKm: number, onSameRoad: boolean, urgent: boolean) {
   const dist = distKm < 1 ? `${Math.round(distKm * 1000)}m` : `${distKm.toFixed(1)}km`;
-  const title = 'Speed Camera Ahead';
+  const title = urgent ? '🚨 Speed Camera — Very Close!' : '⚠️ Speed Camera Ahead';
   const body = onSameRoad
     ? `${loc.location}, ${loc.suburb} — ${dist} ahead on your road`
     : `${loc.location}, ${loc.suburb} — ${dist} away`;
-  const opts = { body, tag: `cam-${loc.id}`, renotify: true } as NotificationOptions & { renotify?: boolean };
+  const tag = `cam-${loc.id}`;
   try {
+    // Prefer SW message channel — works even when tab is backgrounded/hidden
     const reg = await navigator.serviceWorker?.ready;
-    await reg.showNotification(title, opts);
+    reg.active?.postMessage({ type: 'CAMERA_ALERT', title, body, tag, urgent });
   } catch {
-    try { new Notification(title, opts); } catch { /* unavailable */ }
+    // Fallback: direct Notification API (foreground only)
+    try {
+      new Notification(title, { body, tag });
+    } catch { /* unavailable */ }
   }
 }
 
@@ -179,13 +183,14 @@ export function useProximityAlerts(
         if (d < nearestDist) { nearestDist = d; nearest = { camera: loc, distKm: d, onSameRoad }; }
       }
 
-      // Progressive voice: check every threshold, not just on entry
+      // Progressive voice + beep: check every threshold, not just on entry
       if (d <= alertDist) {
         const spoken = spokenRef.current.get(loc.id) ?? new Set<number>();
         for (const t of thresholds) {
           if (d <= t && !spoken.has(t)) {
             const isFirst = !spoken.size;
             speak(voiceText(loc, d, isFirst));
+            if (d <= 0.5) playUrgentAlert(); else playAlert();
             spoken.add(t);
             spokenRef.current.set(loc.id, spoken);
             break; // fire only the largest un-spoken threshold per update
@@ -216,11 +221,14 @@ export function useProximityAlerts(
       const d   = haversineKm(userLat, userLon, loc.lat!, loc.lon!);
       const onSameRoad = userRoadRef.current ? isSameRoad(userRoadRef.current, loc.location) : false;
 
-      playAlert();
+      const urgent = d <= 0.5;
+      if (urgent) playUrgentAlert(); else playAlert();
       if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate([300, 150, 300, 150, 500]);
+        navigator.vibrate(urgent
+          ? [500, 100, 500, 100, 500, 100, 800]
+          : [300, 150, 300, 150, 500]);
       }
-      if (notifPermission === 'granted') pushNotification(loc, d, onSameRoad);
+      if (notifPermission === 'granted') pushNotification(loc, d, onSameRoad, urgent);
       beepCooldownRef.current.set(id, now);
     }
 

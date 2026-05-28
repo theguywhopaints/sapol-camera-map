@@ -52,9 +52,30 @@ self.addEventListener('fetch', (e) => {
   );
 });
 
+// Show a camera alert notification from any context (foreground or background)
+self.addEventListener('message', (e) => {
+  if (e.data?.type !== 'CAMERA_ALERT') return;
+  const { title, body, tag, urgent } = e.data;
+  const opts = {
+    body,
+    tag,
+    renotify: true,
+    icon: '/favicon.ico',
+    badge: '/favicon.ico',
+    requireInteraction: !!urgent,
+    vibrate: urgent
+      ? [500, 100, 500, 100, 500, 100, 800]
+      : [300, 150, 300, 150, 500],
+    actions: [{ action: 'dismiss', title: 'Dismiss' }],
+    data: { url: '/' },
+  };
+  e.waitUntil(self.registration.showNotification(title, opts));
+});
+
 // Tap a notification → focus existing tab or open a new one
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
+  if (e.action === 'dismiss') return;
   e.waitUntil(
     clients
       .matchAll({ type: 'window', includeUncontrolled: true })

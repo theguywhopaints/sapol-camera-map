@@ -13,6 +13,29 @@ function bucket(lat: number, lon: number): string {
   return `${Math.round(lat / BUCKET_DEG)},${Math.round(lon / BUCKET_DEG)}`;
 }
 
+// Speed limit lookup by camera position — cached indefinitely (road limits don't change)
+const speedLimitCache = new Map<string, string | null>();
+
+export async function getSpeedLimit(lat: number, lon: number): Promise<string | null> {
+  const key = bucket(lat, lon);
+  if (speedLimitCache.has(key)) return speedLimitCache.get(key) ?? null;
+  try {
+    const r = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&extratags=1`,
+      { headers: { 'User-Agent': 'sapol-camera-map/1.0' } }
+    );
+    const data = await r.json() as { extratags?: { maxspeed?: string } };
+    const raw = data.extratags?.maxspeed ?? null;
+    // Normalise "60 km/h" → "60", "110" → "110"
+    const val = raw ? raw.replace(/\s*(km\/h|mph)\s*/i, '').trim() : null;
+    speedLimitCache.set(key, val);
+    return val;
+  } catch {
+    speedLimitCache.set(key, null);
+    return null;
+  }
+}
+
 export async function getRoadName(lat: number, lon: number): Promise<string | null> {
   const key = bucket(lat, lon);
   const hit = cache.get(key);

@@ -8,11 +8,13 @@ import {
   useMemo,
   useRef,
   type RefObject,
+  type CSSProperties,
 } from 'react';
 import type { CameraLocation } from '@/lib/geocoder';
 import { useGeolocation } from './hooks/useGeolocation';
 import { useProximityAlerts, ALERT_DISTANCES, type AlertDistance } from './hooks/useProximityAlerts';
-import { haversineKm, formatDistance } from '@/lib/distance';
+import { haversineKm, formatDistance, relativeDirection } from '@/lib/distance';
+import { getSpeedLimit } from '@/lib/reverseGeocode';
 import { BottomSheet, type SnapState } from './components/BottomSheet';
 import type { CameraMapHandle } from './components/CameraMap';
 
@@ -48,6 +50,27 @@ function CameraIcon({ color = '#f59e0b' }: { color?: string }) {
       <rect x="0.5" y="2.5" width="15" height="11" rx="2" stroke={color} strokeWidth="1.2" />
       <circle cx="8" cy="8" r="3" stroke={color} strokeWidth="1.2" />
       <rect x="5" y="0.5" width="4" height="3" rx="1" fill={color} />
+    </svg>
+  );
+}
+
+function CameraVanIcon({ color = 'currentColor' }: { color?: string }) {
+  return (
+    <svg width="48" height="32" viewBox="0 0 64 42" fill="none">
+      <rect x="1" y="12" width="44" height="22" rx="4" fill={color} />
+      <path d="M44 14 L59 14 Q62 14 62 17 L62 34 Q60 34 60 34 L44 34 Z" fill={color} />
+      <rect x="45" y="15.5" width="14" height="11" rx="1.5" fill="rgba(0,0,0,0.38)" />
+      <rect x="4" y="14.5" width="14" height="9" rx="1.5" fill="rgba(0,0,0,0.32)" />
+      <rect x="16" y="4" width="16" height="9" rx="2" fill={color} opacity="0.9" />
+      <circle cx="24" cy="8.5" r="3.5" fill="rgba(0,0,0,0.28)" />
+      <circle cx="24" cy="8.5" r="1.8" fill="rgba(0,0,0,0.55)" />
+      <rect x="30" y="5.5" width="3" height="3" rx="0.5" fill="rgba(255,255,255,0.55)" />
+      <rect x="23" y="12" width="2" height="2" fill={color} />
+      <rect x="1" y="26" width="44" height="4" fill="rgba(0,0,0,0.18)" />
+      <circle cx="13" cy="36" r="6" fill="rgba(0,0,0,0.7)" />
+      <circle cx="13" cy="36" r="2.5" fill="rgba(100,116,139,0.65)" />
+      <circle cx="48" cy="36" r="6" fill="rgba(0,0,0,0.7)" />
+      <circle cx="48" cy="36" r="2.5" fill="rgba(100,116,139,0.65)" />
     </svg>
   );
 }
@@ -92,8 +115,21 @@ export default function Home() {
     return all.filter((l) => l.date === dateFilter || (l.dateEnd && l.type === 'country'));
   }, [data, dateFilter]);
 
+  // Alerts always use today's cameras only, regardless of what the map date filter shows
+  const todaysCameras = useMemo(() => {
+    if (!data) return [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayStr = availableDates.find((d) => parseSaDate(d)?.toDateString() === today.toDateString());
+    if (!todayStr) return [];
+    return data.locations.filter(
+      (l) => l.lat !== null && l.lon !== null &&
+        (l.date === todayStr || (l.dateEnd && l.type === 'country'))
+    );
+  }, [data, availableDates]);
+
   const alerts = useProximityAlerts(
-    filteredByDate,
+    todaysCameras,
     geo.location?.lat ?? null,
     geo.location?.lon ?? null,
     geo.location?.heading ?? null,
@@ -156,7 +192,59 @@ export default function Home() {
   // ─── Alert state ──────────────────────────────────────────────
   const alertCamera = alerts.activeAlert;
   const alertDist = alertCamera?.distKm ?? null;
-  const alertIsClose = alertDist !== null && alertDist < 0.5;
+
+  // Zone-based colour: yellow → orange → red as you approach
+  function distZone(km: number | null) {
+    if (km !== null && km < 0.5) return { hex: '#ef4444', hex2: '#dc2626', bg: 'rgba(127,29,29,0.97)',  border: 'rgba(239,68,68,0.7)',  label: 'red' };
+    if (km !== null && km < 1)   return { hex: '#f97316', hex2: '#ea580c', bg: 'rgba(124,45,18,0.97)',  border: 'rgba(249,115,22,0.65)', label: 'orange' };
+    return                               { hex: '#fbbf24', hex2: '#f59e0b', bg: 'rgba(120,53,15,0.97)', border: 'rgba(251,191,36,0.6)',  label: 'yellow' };
+  }
+
+  const zone = distZone(alertDist);
+
+  // Flash overlay state
+  const [flashKey, setFlashKey] = useState(0);
+  const [flashColor, setFlashColor] = useState('#fbbf24');
+  const prevAlertIdRef = useRef<string | null>(null);
+  const prevZoneLabelRef = useRef<string | null>(null);
+  const ZONE_RANK: Record<string, number> = { yellow: 0, orange: 1, red: 2 };
+
+  useEffect(() => {
+    const id = alertCamera?.camera.id ?? null;
+    const zoneLabel = id ? zone.label : null;
+    const isNew = id && id !== prevAlertIdRef.current;
+    const isEscalating = id && zoneLabel && prevZoneLabelRef.current &&
+      ZONE_RANK[zoneLabel] > ZONE_RANK[prevZoneLabelRef.current];
+    if (isNew || isEscalating) {
+      setFlashColor(distZone(alertCamera?.distKm ?? null).hex);
+      setFlashKey((k) => k + 1);
+    }
+    prevAlertIdRef.current = id;
+    if (zoneLabel) prevZoneLabelRef.current = zoneLabel;
+    if (!id) prevZoneLabelRef.current = null;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [alertCamera?.camera.id, zone.label]);
+
+  // ─── Speed limit for active camera location ───────────────────
+  const [speedLimit, setSpeedLimit] = useState<string | null>(null);
+  const speedLimitCacheRef = useRef<Map<string, string | null>>(new Map());
+
+  useEffect(() => {
+    const cam = alertCamera?.camera;
+    if (!cam?.lat || !cam?.lon) { setSpeedLimit(null); return; }
+    const key = `${cam.lat.toFixed(3)},${cam.lon.toFixed(3)}`;
+    if (speedLimitCacheRef.current.has(key)) {
+      setSpeedLimit(speedLimitCacheRef.current.get(key) ?? null);
+      return;
+    }
+    let cancelled = false;
+    getSpeedLimit(cam.lat, cam.lon).then((limit) => {
+      if (cancelled) return;
+      speedLimitCacheRef.current.set(key, limit);
+      setSpeedLimit(limit);
+    });
+    return () => { cancelled = true; };
+  }, [alertCamera?.camera.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function dotColor(distKm: number | null): string {
     if (distKm === null) return '#f59e0b';
@@ -184,6 +272,32 @@ export default function Home() {
         />
       </div>
 
+      {/* ── Screen flash on camera entry ─────────────────────── */}
+      {flashKey > 0 && (
+        <div
+          key={flashKey}
+          className="absolute inset-0 z-40 pointer-events-none screen-flash"
+          style={{ background: flashColor }}
+        />
+      )}
+
+      {/* ── Siri corner glows ─────────────────────────────────── */}
+      {alertCamera && (
+        <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+          {(['tl', 'tr', 'bl', 'br'] as const).map((pos) => (
+            <div
+              key={pos}
+              className={`siri-corner siri-${pos}`}
+              style={{ '--sc': zone.hex, '--sc2': zone.hex2 } as CSSProperties}
+            />
+          ))}
+          <div className="siri-streak siri-streak-top"    style={{ '--sc': zone.hex, '--sc2': zone.hex2 } as CSSProperties} />
+          <div className="siri-streak siri-streak-top2"   style={{ '--sc': zone.hex2, '--sc2': zone.hex } as CSSProperties} />
+          <div className="siri-streak siri-streak-bottom" style={{ '--sc': zone.hex, '--sc2': zone.hex2 } as CSSProperties} />
+          <div className="siri-streak siri-streak-bottom2" style={{ '--sc': zone.hex2, '--sc2': zone.hex } as CSSProperties} />
+        </div>
+      )}
+
       {/* ── Top bar ─────────────────────────────────────────── */}
       <div
         className="absolute top-0 inset-x-0 z-30 pointer-events-none"
@@ -193,7 +307,7 @@ export default function Home() {
           <div className="flex items-center gap-2 bg-slate-900/85 backdrop-blur-xl rounded-2xl px-3 py-2.5 border border-slate-700/40 shadow-xl">
             {/* Count badge */}
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className={`w-2 h-2 rounded-full animate-pulse ${alertCamera ? 'bg-red-400' : 'bg-amber-400'}`} />
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: alertCamera ? zone.hex : '#f59e0b' }} />
               <span className="text-sm font-semibold text-white">{loading && !data ? '…' : nearbyCount}</span>
               <span className="text-xs text-slate-400 hidden sm:block">
                 camera{nearbyCount !== 1 ? 's' : ''}{mapRadius && geo.location ? ` within ${mapRadius}km` : ''}
@@ -233,47 +347,82 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ══ Waze-style alert banner ══ */}
-        {alertCamera && (
-          <div className="mx-3 mt-2 pointer-events-auto alert-slide-in">
-            <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 border shadow-2xl backdrop-blur-xl transition-colors duration-500 ${
-              alertIsClose
-                ? 'bg-red-950/97 border-red-500/70'
-                : 'bg-amber-950/97 border-amber-500/60'
-            }`}>
-              {/* Pulsing warning icon */}
-              <div className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${
-                alertIsClose ? 'bg-red-500/25 ring-1 ring-red-400/50' : 'bg-amber-500/20 ring-1 ring-amber-400/40'
-              } ${alertIsClose ? 'animate-pulse' : ''}`}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                    stroke={alertIsClose ? '#f87171' : '#fbbf24'}
-                    strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-                    fill={alertIsClose ? '#f8717118' : '#fbbf2418'} />
-                  <line x1="12" y1="9" x2="12" y2="13" stroke={alertIsClose ? '#f87171' : '#fbbf24'} strokeWidth="2" strokeLinecap="round" />
-                  <line x1="12" y1="17" x2="12.01" y2="17" stroke={alertIsClose ? '#f87171' : '#fbbf24'} strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
+        {/* ══ Alert banner ══ */}
+        {alertCamera && (() => {
+          const cam = alertCamera.camera;
+          const dir = (geo.location && cam.lat && cam.lon)
+            ? relativeDirection(geo.location.heading, geo.location.lat, geo.location.lon, cam.lat, cam.lon)
+            : null;
+          const etaSec = (alertDist !== null && geo.location?.speed != null && geo.location.speed > 1)
+            ? Math.round((alertDist * 1000) / geo.location.speed) : null;
+          const etaLabel = etaSec == null ? null
+            : etaSec < 60 ? `~${etaSec}s`
+            : `~${Math.floor(etaSec / 60)}m ${etaSec % 60 > 0 ? `${etaSec % 60}s` : ''}`.trim();
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline justify-between gap-2">
-                  <p className={`text-xs font-bold uppercase tracking-wider ${alertIsClose ? 'text-red-400' : 'text-amber-400'}`}>
-                    Speed Camera{alertCamera.onSameRoad ? ' · Same Road' : ''}
-                  </p>
-                  {/* Distance countdown — large and prominent */}
-                  <p className={`text-2xl font-black tabular-nums leading-none ${alertIsClose ? 'text-red-300' : 'text-amber-300'}`}>
-                    {formatDistance(alertCamera.distKm)}
-                  </p>
+          return (
+            <div key={cam.id} className="mx-3 mt-2 pointer-events-auto alert-slide-in">
+              <div
+                className="rounded-2xl px-4 py-3 flex items-start gap-3 shadow-2xl backdrop-blur-xl"
+                style={{ background: zone.bg, border: `1px solid ${zone.border}` }}
+              >
+                {/* Camera van icon */}
+                <div
+                  className={`shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center mt-0.5 ${zone.label === 'red' ? 'animate-pulse' : ''}`}
+                  style={{ background: `${zone.hex}22`, boxShadow: `0 0 0 1px ${zone.hex}44` }}
+                >
+                  <CameraVanIcon color={zone.hex} />
                 </div>
-                <p className="text-sm font-medium text-white mt-0.5 truncate">
-                  {alertCamera.camera.location}
-                  <span className="text-slate-400 font-normal">, {alertCamera.camera.suburb}</span>
-                </p>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  {/* Row 1: label + speed limit sign */}
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: zone.hex }}>
+                      ⚠ Camera Van{alertCamera.onSameRoad ? ' · Same Road' : ''}
+                    </p>
+                    {speedLimit && (
+                      <div className="shrink-0 w-9 h-9 rounded-full flex flex-col items-center justify-center border-[3px] border-red-500 bg-white">
+                        <span className="text-[11px] font-black text-black leading-none">{speedLimit}</span>
+                        <span className="text-[7px] font-bold text-black leading-none mt-px">km/h</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Row 2: big distance */}
+                  <p className="text-3xl font-black tabular-nums leading-tight mt-0.5" style={{ color: zone.hex }}>
+                    {formatDistance(alertCamera.distKm)}
+                    <span className="text-sm font-semibold ml-1.5 opacity-70">ahead</span>
+                  </p>
+
+                  {/* Row 3: street name */}
+                  <p className="text-sm font-medium text-white/90 truncate leading-snug mt-0.5">
+                    {cam.location}
+                    <span className="text-slate-400 font-normal">, {cam.suburb}</span>
+                  </p>
+
+                  {/* Row 4: direction + ETA */}
+                  {(dir || etaLabel) && (
+                    <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                      {dir && (
+                        <span
+                          className="text-xs font-bold px-2 py-0.5 rounded-lg"
+                          style={{ background: `${zone.hex}22`, color: zone.hex, border: `1px solid ${zone.hex}44` }}
+                        >
+                          {dir.arrow} {dir.label}
+                        </span>
+                      )}
+                      {etaLabel && (
+                        <span className="text-xs font-semibold text-slate-300">
+                          {etaLabel} at current speed
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
 
       {/* ── Nav mode FAB ───────────────────────────────────────── */}
